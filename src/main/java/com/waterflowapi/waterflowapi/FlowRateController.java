@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -31,6 +32,7 @@ public class FlowRateController {
         this.flowRateRepository = flowRateRepository;
     }
     
+    @CrossOrigin
     @RequestMapping(
             value = "/master/{id}/{flowRate}/{buttonControl}",
             method = RequestMethod.GET
@@ -69,6 +71,7 @@ public class FlowRateController {
         return returnedFlowRate;
     }
     
+    @CrossOrigin
     @RequestMapping (
             value = "/minor/{id}/{flowRate}/{buttonControl}",
             method = RequestMethod.GET
@@ -85,6 +88,7 @@ public class FlowRateController {
         return "SUCCESS";
     }
     
+    @CrossOrigin
     @RequestMapping(value = "/all",method = RequestMethod.GET)
     @ResponseBody
     
@@ -92,6 +96,7 @@ public class FlowRateController {
         return flowRateRepository.findAll();
     } 
     
+    @CrossOrigin
     @RequestMapping(value = "/switch",method = RequestMethod.GET)
     @ResponseBody
             
@@ -100,6 +105,7 @@ public class FlowRateController {
         return items.getButtonControl();
     }
     
+    @CrossOrigin
     @RequestMapping(value = "/set/{switchValue}",method = RequestMethod.GET)
     @ResponseBody
     
