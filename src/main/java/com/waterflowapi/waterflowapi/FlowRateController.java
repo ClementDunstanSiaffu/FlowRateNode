@@ -98,5 +98,18 @@ public class FlowRateController {
     public boolean getSwitchStatus (){
         FlowRateItems items = flowRateRepository.findItemById(1);
         return items.getButtonControl();
-    }      
+    }
+    
+    @RequestMapping(value = "/set/{switchValue}",method = RequestMethod.GET)
+    @ResponseBody
+    
+    public String setSwitchStatus(
+            @PathVariable boolean switchValue
+    ){
+        FlowRateItems items = flowRateRepository.findItemById(1);
+        items.setButtonControl(switchValue);
+        flowRateRepository.save(items);
+        return "success";
+    }
+    
 }
