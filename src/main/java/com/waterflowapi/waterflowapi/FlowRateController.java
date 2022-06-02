@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 
 
 @Controller
@@ -29,6 +30,7 @@ public class FlowRateController {
     
     private FlowRateRepository flowRateRepository;
     private SwitchRepository switchRepository;
+    private ZoneId zoneId = ZoneId.of("Africa/Dar_es_Salaam");
     
     @Autowired
     FlowRateController(
@@ -53,16 +55,16 @@ public class FlowRateController {
         FlowRateItems items = flowRateRepository.findItemById(id);
         if (items != null){
             items.setFlowRate(flowRate);
-            items.setDate(LocalDate.now());
-            items.setTime(LocalTime.now());        
+            items.setDate(LocalDate.now(zoneId));
+            items.setTime(LocalTime.now(zoneId));        
             flowRateRepository.save(items);
         }else{
             flowRateRepository.save(
                     new FlowRateItems(
                             id,
                             flowRate,
-                            LocalDate.now(),
-                            LocalTime.now()
+                            LocalDate.now(zoneId),
+                            LocalTime.now(zoneId)
                     ));
         }
         List<FlowRateItems> tempArr;
@@ -99,16 +101,16 @@ public class FlowRateController {
         FlowRateItems items = flowRateRepository.findItemById(id);
         if(items != null ){
             items.setFlowRate(flowRate);
-            items.setDate(LocalDate.now());
-            items.setTime(LocalTime.now()); 
+            items.setDate(LocalDate.now(zoneId));
+            items.setTime(LocalTime.now(zoneId)); 
             flowRateRepository.save(items);
         }else{
              flowRateRepository.save(
                 new FlowRateItems(
                         id,
                         flowRate,
-                        LocalDate.now(),
-                        LocalTime.now()
+                        LocalDate.now(zoneId),
+                        LocalTime.now(zoneId)
                 ));
         }
        
