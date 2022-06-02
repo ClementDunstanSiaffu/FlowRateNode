@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 
 @Controller
@@ -48,9 +50,18 @@ public class FlowRateController {
         if (items != null){
             items.setFlowRate(flowRate);
             items.setButtonControl(buttonControl);
+            items.setDate(LocalDate.now());
+            items.setTime(LocalTime.now());        
             flowRateRepository.save(items);
         }else{
-            flowRateRepository.save(new FlowRateItems(id,flowRate,buttonControl));
+            flowRateRepository.save(
+                    new FlowRateItems(
+                            id,
+                            flowRate,
+                            buttonControl,
+                            LocalDate.now(),
+                            LocalTime.now()
+                    ));
         }
         List<FlowRateItems> tempArr;
         double returnedFlowRate = 0;
@@ -84,7 +95,24 @@ public class FlowRateController {
             @PathVariable boolean buttonControl
             
     ){
-        flowRateRepository.save(new FlowRateItems(id,flowRate,buttonControl));
+        FlowRateItems items = flowRateRepository.findItemById(id);
+        if(items != null ){
+            items.setFlowRate(flowRate);
+            items.setButtonControl(buttonControl);
+            items.setDate(LocalDate.now());
+            items.setTime(LocalTime.now()); 
+            flowRateRepository.save(items);
+        }else{
+             flowRateRepository.save(
+                new FlowRateItems(
+                        id,
+                        flowRate,
+                        buttonControl,
+                        LocalDate.now(),
+                        LocalTime.now()
+                ));
+        }
+       
         return "SUCCESS";
     }
     

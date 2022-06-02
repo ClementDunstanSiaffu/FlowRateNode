@@ -10,6 +10,8 @@ package com.waterflowapi.waterflowapi;
  */
 
 import org.springframework.data.annotation.Id;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class FlowRateItems {
     
@@ -17,11 +19,21 @@ public class FlowRateItems {
     private int id;
     private double flowRate;
     private boolean buttonControl;
+    private LocalDate date;
+    private LocalTime time;
     
-    FlowRateItems(int id,double flowRate,boolean buttonControl){
+    FlowRateItems(
+            int id,
+            double flowRate,
+            boolean buttonControl,
+            LocalDate date,
+            LocalTime time
+    ){
         this.id = id;
         this.flowRate = flowRate;
         this.buttonControl = buttonControl;
+        this.date = date;
+        this.time = time;
     }
     
     void setId(int id){
@@ -36,6 +48,14 @@ public class FlowRateItems {
         this.buttonControl = buttonControl;
     }
     
+    void setDate(LocalDate date){
+        this.date = date;
+    }
+    
+    void setTime(LocalTime time){
+        this.time = time;
+    }
+    
     public int getId(){
         return this.id;
     }
@@ -48,4 +68,11 @@ public class FlowRateItems {
         return this.buttonControl;
     }
     
+    public LocalDate getDate(){
+        return this.date;
+    }
+    
+    public LocalTime getTime(){
+        return this.time;
+    }
 }
