@@ -28,28 +28,31 @@ import java.time.LocalTime;
 public class FlowRateController {
     
     private FlowRateRepository flowRateRepository;
+    private SwitchRepository switchRepository;
     
     @Autowired
-    FlowRateController(FlowRateRepository flowRateRepository){
+    FlowRateController(
+            FlowRateRepository flowRateRepository,
+            SwitchRepository switchRepository
+    ){
         this.flowRateRepository = flowRateRepository;
+        this.switchRepository = switchRepository; 
     }
     
     @CrossOrigin
     @RequestMapping(
-            value = "/master/{id}/{flowRate}/{buttonControl}",
+            value = "/master/{id}/{flowRate}",
             method = RequestMethod.GET
     )
     @ResponseBody
     
     public double getMasterFlowRate(
             @PathVariable double flowRate,
-            @PathVariable int id,
-            @PathVariable boolean buttonControl
+            @PathVariable int id
     ){
         FlowRateItems items = flowRateRepository.findItemById(id);
         if (items != null){
             items.setFlowRate(flowRate);
-            items.setButtonControl(buttonControl);
             items.setDate(LocalDate.now());
             items.setTime(LocalTime.now());        
             flowRateRepository.save(items);
@@ -58,7 +61,6 @@ public class FlowRateController {
                     new FlowRateItems(
                             id,
                             flowRate,
-                            buttonControl,
                             LocalDate.now(),
                             LocalTime.now()
                     ));
@@ -84,21 +86,19 @@ public class FlowRateController {
     
     @CrossOrigin
     @RequestMapping (
-            value = "/minor/{id}/{flowRate}/{buttonControl}",
+            value = "/minor/{id}/{flowRate}",
             method = RequestMethod.GET
     )
     @ResponseBody
     
     public String getMinorFlowRate(
             @PathVariable int id,
-            @PathVariable double flowRate,
-            @PathVariable boolean buttonControl
+            @PathVariable double flowRate
             
     ){
         FlowRateItems items = flowRateRepository.findItemById(id);
         if(items != null ){
             items.setFlowRate(flowRate);
-            items.setButtonControl(buttonControl);
             items.setDate(LocalDate.now());
             items.setTime(LocalTime.now()); 
             flowRateRepository.save(items);
@@ -107,7 +107,6 @@ public class FlowRateController {
                 new FlowRateItems(
                         id,
                         flowRate,
-                        buttonControl,
                         LocalDate.now(),
                         LocalTime.now()
                 ));
@@ -129,8 +128,8 @@ public class FlowRateController {
     @ResponseBody
             
     public boolean getSwitchStatus (){
-        FlowRateItems items = flowRateRepository.findItemById(1);
-        return items.getButtonControl();
+        SwitchItem items = switchRepository.findItemById(1);
+        return items.getSwitchStatus();
     }
     
     @CrossOrigin
@@ -140,10 +139,15 @@ public class FlowRateController {
     public String setSwitchStatus(
             @PathVariable boolean switchValue
     ){
-        FlowRateItems items = flowRateRepository.findItemById(1);
-        items.setButtonControl(switchValue);
-        flowRateRepository.save(items);
-        return "success";
+        SwitchItem items = switchRepository.findItemById(1);
+        if (items != null){
+            items.setSwitchStatus(switchValue);
+            switchRepository.save(items);
+        }else{
+            switchRepository.save(new SwitchItem(1,switchValue));
+        }
+       
+        return "SUCCESS";
     }
     
 }

@@ -18,20 +18,17 @@ public class FlowRateItems {
     @Id
     private int id;
     private double flowRate;
-    private boolean buttonControl;
     private LocalDate date;
     private LocalTime time;
     
     FlowRateItems(
             int id,
             double flowRate,
-            boolean buttonControl,
             LocalDate date,
             LocalTime time
     ){
         this.id = id;
         this.flowRate = flowRate;
-        this.buttonControl = buttonControl;
         this.date = date;
         this.time = time;
     }
@@ -43,11 +40,7 @@ public class FlowRateItems {
     void setFlowRate(double flowRate){
         this.flowRate = flowRate;
     }
-    
-    void setButtonControl(boolean buttonControl){
-        this.buttonControl = buttonControl;
-    }
-    
+       
     void setDate(LocalDate date){
         this.date = date;
     }
@@ -63,11 +56,7 @@ public class FlowRateItems {
     public double getFlowRate(){
         return this.flowRate;
     }
-    
-    public boolean getButtonControl(){
-        return this.buttonControl;
-    }
-    
+        
     public LocalDate getDate(){
         return this.date;
     }
